@@ -33,11 +33,11 @@ class DBMon extends React.PureComponent {
 
         return (
             <div>
-                <table className="table table-striped latest-data">
+                <Table>
                     <tbody>
                         { databases }
                     </tbody>
-                </table>
+                </Table>
             </div>
         );
     }
@@ -72,16 +72,20 @@ class Database extends React.Component {
 class Query extends React.PureComponent {
     render () {
         return (
-            <td className={ "Query " + this.props.elapsedClassName}>
+            <StyledQuery>
                 {this.props.formatElapsed}
-                <div className="popover left">
+                <Popover>
                     <div className="popover-content">{this.props.query}</div>
                     <div className="arrow"/>
-                </div>
-            </td>
+                </Popover>
+            </StyledQuery>
         );
     }
 }
+
+const Table = styled('table')`
+    width: 100%;
+`
 
 const Td = styled('td')`
     border-top:1px solid #ddd;
@@ -105,6 +109,42 @@ const NumQueries = styled('span')`
         if (p.queries >= 10) return '#f0ad4e'
         return '#5cb85c'
     }}
+`
+
+const Popover = styled('div')`
+    background-color:#fff;
+    background-clip:padding-box;
+    border:1px solid #ccc;
+    border:1px solid rgba(0,0,0,.2);
+    border-radius:6px;
+    box-shadow:0 5px 10px rgba(0,0,0,.2);
+    display:none;
+    left:0;
+    max-width:276px;
+    padding:1px;
+    position:absolute;
+    text-align:left;
+    top:0;
+    white-space:normal;
+    z-index:1010;
+`
+
+const StyledQuery = styled('td')`
+    border-top:1px solid #ddd;
+    line-height:1.42857143;
+    padding:8px;
+    vertical-align:top;
+    position: relative;
+    ${''
+        // the following doesn't play nice with emotion out of the box
+        /*
+            :hover ${Popover} {
+                display:block;
+                left:-100%;
+                width:100%;
+            }
+        */
+    }
 `
 
 ReactDOM.render(<DBMon />, document.getElementById('dbmon'))
