@@ -2,9 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'react-emotion'
 
-import ENV from './env.js'
-import Monitoring from './monitor.js'
-
 class DBMon extends React.PureComponent {
     constructor (...args) {
         super(...args)

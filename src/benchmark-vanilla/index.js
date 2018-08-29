@@ -1,9 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import styled from 'styled-components'
-
-import ENV from './env.js'
-import Monitoring from './monitor.js'
 
 class DBMon extends React.PureComponent {
     constructor (...args) {
@@ -56,10 +52,14 @@ class Database extends React.Component {
         var lastSample = this.props.lastSample;
         return (
             <tr key={this.props.dbname}>
-                <Td children={this.props.dbname} />
-                <Td className="query-count">
-                    <NumQueries queries={this.props.lastSample.nbQueries} children={this.props.lastSample.nbQueries} />
-                </Td>
+                <td className="dbname">
+                    {this.props.dbname}
+                </td>
+                <td className="query-count">
+                    <span className={this.props.lastSample.countClassName}>
+                        {this.props.lastSample.nbQueries}
+                    </span>
+                </td>
                 {this.props.lastSample.topFiveQueries.map(function(query, index) {
                     return <Query key={index}
                         query={query.query}
@@ -85,29 +85,5 @@ class Query extends React.PureComponent {
         );
     }
 }
-
-const Td = styled.td`
-    border-top:1px solid #ddd;
-    line-height:1.42857143;
-    padding:8px;
-    vertical-align:top;
-`
-const NumQueries = styled.span`
-    border-radius:.25em;
-    color:#fff;
-    display:inline;
-    font-size:75%;
-    font-weight:700;
-    line-height:1;
-    padding:.2em .6em .3em;
-    text-align:center;
-    vertical-align:baseline;
-    white-space:nowrap;
-
-    background-color: ${p => {
-        if (p.queries >= 10) return '#f0ad4e'
-        return '#5cb85c'
-    }}
-`
 
 ReactDOM.render(<DBMon />, document.getElementById('dbmon'))
